@@ -22,8 +22,6 @@ public class Main {
             Future<Integer> future = executor.submit(()->{
                 int sum=0;
                 for (int j = s*100_000; j <(s+1)*100_000 ; j++) sum += j;
-
-
                 return sum;
             });
             while (true){
