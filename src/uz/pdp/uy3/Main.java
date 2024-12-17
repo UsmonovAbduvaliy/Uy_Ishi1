@@ -3,11 +3,14 @@ package uz.pdp.uy3;
 import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
+    static ExecutorService service = Executors.newFixedThreadPool(5);
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
-        String[] str = new String[]{"book"," pen", "ruler", "note", "laptop", "window"};
+        String[] str = new String[]{"book","pen", "ruler", "note", "laptop", "window"};
         Random rand = new Random();
         File file = new File("C:\\Users\\Abduvaliy\\IdeaProjects\\4M Lesson 8\\src\\uz\\pdp\\uy3\\a.txt");
         if(file.exists()){
@@ -40,78 +43,112 @@ public class Main {
     }
 
     private static void removeBooks() throws IOException {
-        String wordToRemove = "book";
-        File file = new File("C:\\Users\\Abduvaliy\\IdeaProjects\\4M Lesson 8\\src\\uz\\pdp\\uy3\\a.txt");
-        File file1 = new File("C:\\Users\\Abduvaliy\\IdeaProjects\\4M Lesson 8\\src\\uz\\pdp\\uy3\\test.txt");
-        if(file1.exists()){
-            file1.delete();
-        }
-        file1.createNewFile();
-        try (FileInputStream fis = new FileInputStream(file);
-             FileOutputStream fos = new FileOutputStream(file1)) {
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.replaceAll("(?i)\\b" + wordToRemove + "\\b", "");
-                writer.write(line);
-                writer.newLine();
+        service.execute(()->{
+            String wordToRemove = "book";
+            File file = new File("C:\\Users\\Abduvaliy\\IdeaProjects\\4M Lesson 8\\src\\uz\\pdp\\uy3\\a.txt");
+            File file1 = new File("C:\\Users\\Abduvaliy\\IdeaProjects\\4M Lesson 8\\src\\uz\\pdp\\uy3\\test.txt");
+            if(file1.exists()){
+                file1.delete();
             }
-            writer.flush();
-        }
-        file.delete();
-        file.createNewFile();
-        try (FileInputStream fis = new FileInputStream(file1);
-             FileOutputStream fos = new FileOutputStream(file)) {
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-
-            while ((reader.readLine()) != null) {
-                writer.write(reader.readLine());
-                writer.newLine();
+            try {
+                file1.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            writer.flush();
-        }
+            try (FileInputStream fis = new FileInputStream(file);
+                 FileOutputStream fos = new FileOutputStream(file1)) {
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    line = line.replaceAll("(?i)\\b" + wordToRemove + "\\b", "");
+                    writer.write(line);
+                    writer.newLine();
+                }
+                writer.flush();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            file.delete();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try (FileInputStream fis = new FileInputStream(file1);
+                 FileOutputStream fos = new FileOutputStream(file)) {
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+                while ((reader.readLine()) != null) {
+                    writer.write(reader.readLine());
+                    writer.newLine();
+                }
+                writer.flush();
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 
     private static void removePens() throws IOException {
-        String wordToRemove = "pen";
-        File file = new File("C:\\Users\\Abduvaliy\\IdeaProjects\\4M Lesson 8\\src\\uz\\pdp\\uy3\\a.txt");
-        File file1 = new File("C:\\Users\\Abduvaliy\\IdeaProjects\\4M Lesson 8\\src\\uz\\pdp\\uy3\\test.txt");
-        if(file1.exists()){
-            file1.delete();
-        }
-        file1.createNewFile();
-        try (FileInputStream fis = new FileInputStream(file);
-             FileOutputStream fos = new FileOutputStream(file1)) {
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                line = line.replaceAll("(?i)\\b" + wordToRemove + "\\b", "");
-                writer.write(line);
-                writer.newLine();
+        service.execute(()->{
+            String wordToRemove = "pen";
+            File file = new File("C:\\Users\\Abduvaliy\\IdeaProjects\\4M Lesson 8\\src\\uz\\pdp\\uy3\\a.txt");
+            File file1 = new File("C:\\Users\\Abduvaliy\\IdeaProjects\\4M Lesson 8\\src\\uz\\pdp\\uy3\\test.txt");
+            if(file1.exists()){
+                file1.delete();
             }
-            writer.flush();
-        }
-        file.delete();
-        file.createNewFile();
-        try (FileInputStream fis = new FileInputStream(file1);
-             FileOutputStream fos = new FileOutputStream(file)) {
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-
-            while ((reader.readLine()) != null) {
-                writer.write(reader.readLine());
-                writer.newLine();
+            try {
+                file1.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            writer.flush();
-        }
+            try (FileInputStream fis = new FileInputStream(file);
+                 FileOutputStream fos = new FileOutputStream(file1)) {
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    line = line.replaceAll("(?i)\\b" + wordToRemove + "\\b", "");
+                    writer.write(line);
+                    writer.newLine();
+                }
+                writer.flush();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            file.delete();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            try (FileInputStream fis = new FileInputStream(file1);
+                 FileOutputStream fos = new FileOutputStream(file)) {
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+
+                while ((reader.readLine()) != null) {
+                    writer.write(reader.readLine());
+                    writer.newLine();
+                }
+                writer.flush();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
     }
 }
