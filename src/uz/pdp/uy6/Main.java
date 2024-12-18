@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 public class Main {
     static ExecutorService service = Executors.newFixedThreadPool(5);
+    static int summ = 0;
 
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
@@ -37,13 +38,19 @@ public class Main {
             System.out.println("""
                     1 - Counter of Books.
                     2 - Counter of Pens.
+                    3 - Total Sum.
                     """);
             switch (sc.nextInt()) {
                 case 1 -> countBooks();
                 case 2 -> countPens();
+                case 3-> totalSumm();
                 default -> System.out.println("Invalid Option");
             }
         }
+    }
+
+    private static void totalSumm() {
+        System.out.println("Total Sum: " + summ);
     }
 
     private static void countBooks() throws IOException {
@@ -73,6 +80,7 @@ public class Main {
                 }
                 writer.write(String.valueOf(counterBooks));
                 System.out.println("Counter of books: "+counterBooks);
+                summ+=counterBooks;
                 writer.flush();
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
@@ -111,6 +119,7 @@ public class Main {
                 }
                 writer.write(String.valueOf(counterPens));
                 System.out.println("Counter of pen: "+counterPens);
+                summ+=counterPens;
                 writer.flush();
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
