@@ -27,7 +27,7 @@ public class Main {
                 if(phone.equals("0"))return;
                 password = Input.str("0-Back.\nEnter Password");
                 if(password.equals("0"))return;
-                if(phone.matches("\\+998\\d{9}")&&password.matches("[a-zA-Z0-9\\D]+")){
+                if(phone.matches("\\+998\\d{9}")&&password.matches("[a-zA-Z0-9\\D]{8,30}")){
                     break;
                 }else {
                     System.out.println("Invalid Phone Number or Password");
